@@ -1,5 +1,8 @@
 import { Product, ProductStore } from '../product'
+import supertest from 'supertest';
+import app from '../../server'
 
+const request = supertest(app)
 const productStore = new ProductStore()
 
 describe("02 Product Model", () => {
@@ -38,5 +41,15 @@ describe("02 Product Model", () => {
             name: "apples",
             price: 2
         }])
+    });
+    it('gets the api endpoint /products', async (done) => {
+        const response = await request.get('/products');
+        expect(response.status).toBe(200);
+        //done();
+    });
+    it('gets the api endpoint /products/:id', async (done) => {
+        const response = await request.get('/products/:id');
+        expect(response.status).toBe(200);
+        //done();
     });
 });

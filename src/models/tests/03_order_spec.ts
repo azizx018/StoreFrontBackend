@@ -1,5 +1,8 @@
 import { Order, OrderStore } from '../order'
+import supertest from 'supertest';
+import app from '../../server'
 
+const request = supertest(app)
 const orderStore = new OrderStore()
 
 describe("03 Order Model", () => {
@@ -37,5 +40,16 @@ describe("03 Order Model", () => {
             status: 'active'
         }]);
     });
+    it('gets the api endpoint /orders', async (done) => {
+        const response = await request.get('/users');
+        expect(response.status).toBe(200);
+        done();
+    });
+    it('gets the api endpoint /users/:id', async (done) => {
+        const response = await request.get('/users/:id');
+        expect(response.status).toBe(200);
+        done();
+    });
 
 });
+

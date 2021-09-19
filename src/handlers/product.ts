@@ -4,6 +4,7 @@ import { Product, ProductStore } from '../models/product'
 const productStore = new ProductStore()
 
 const index = async (req: Request, res: Response) => {
+    console.log("hello poop")
     const products = await productStore.index()
     res.json(products)
 }
@@ -29,7 +30,7 @@ const create = async (req: Request, res: Response) => {
 const product_routes = (app: express.Application) => {
     app.get('/products', index)
     app.get('/products/:id', show)
-    app.post('/product', create)
+    app.post('/products', create)
 }
 
 export default product_routes

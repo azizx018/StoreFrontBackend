@@ -34,9 +34,15 @@ describe("01 User Model", () => {
         const result = await store.index();
         expect(result).toBeTruthy()
     });
-    // it('gets the api endpoint /users', async (done) => {
-    //     const response = await request.get('/users');
-    //     expect(response.status).toBe(200);
-    //     done();
-    // })
+    it('gets the api endpoint /users', async (done) => {
+        const response = await request.get('/users');
+        expect(response.status).toBe(200);
+        done();
+    });
+    it('gets the api endpoint /users/:id', async (done) => {
+        const response = await request.get('/users/:id');
+        expect(response.status).toBe(200);
+        done();
+    });
 });
+
