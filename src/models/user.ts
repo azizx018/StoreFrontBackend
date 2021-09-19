@@ -53,20 +53,20 @@ export class UserStore {
         }
     }
 
-    // async authenticate(email: string, password: string): Promise<User | null> {
-    //     const conn = await Client.connect()
-    //     const sql = 'SELECT password_digest FROM users WHERE email=$1'
-    //     const result = await conn.query(sql, [email])
-    //     console.log(password + pepper)
+    async authenticate(email: string, password: string): Promise<User | null> {
+        const conn = await Client.connect()
+        const sql = 'SELECT password FROM users WHERE email=$1'
+        const result = await conn.query(sql, [email])
+        console.log(password + BCRYPT_PASSWORD)
 
-    //     if (result.rows.length) {
-    //         const user = result.rows[0]
-    //         console.log(user)
+        if (result.rows.length) {
+            const user = result.rows[0]
+            console.log(user)
 
-    //         if (bcrypt.compareSync(password + pepper, user.password_digest)) {
-    //             return user
-    //         }
-    //     }
-    //     return null
-    // }
+            if (bcrypt.compareSync(password + BCRYPT_PASSWORD, user.password)) {
+                return user
+            }
+        }
+        return null
+    }
 }
