@@ -45,11 +45,16 @@ describe("02 Product Model", () => {
     it('gets the api endpoint /products', async (done) => {
         const response = await request.get('/products');
         expect(response.status).toBe(200);
-        //done();
+        done();
     });
     it('gets the api endpoint /products/:id', async (done) => {
         const response = await request.get('/products/:id');
         expect(response.status).toBe(200);
-        //done();
+        done();
+    });
+    it('gets the api endpoint /products for the create method', async (done) => {
+        const response = await request.post('/products');
+        expect(response.status).toBe(200);
+        done();
     });
 });

@@ -44,5 +44,10 @@ describe("01 User Model", () => {
         expect(response.status).toBe(200);
         done();
     });
+    it('gets the api endpoint /users for the create method', async (done) => {
+        const response = await request.post('/users');
+        expect(response.status).toBe(200);
+        done();
+    });
 });
 
