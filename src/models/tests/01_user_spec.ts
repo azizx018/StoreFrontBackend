@@ -8,11 +8,6 @@ const store = new UserStore()
 
 
 describe("01 User Model", () => {
-    it('gets the api endpoint /users', async (done) => {
-        const response = await request.get('/users');
-        expect(response.status).toBe(200);
-        done();
-    })
     it('should have an idex method', () => {
         expect(store.index).toBeDefined();
     });
@@ -57,4 +52,9 @@ describe("01 User Model", () => {
             password: "password"
         }]);
     });
+    // it('gets the api endpoint /users', async (done) => {
+    //     const response = await request.get('/users');
+    //     expect(response.status).toBe(200);
+    //     done();
+    // })
 });

@@ -1,6 +1,8 @@
 import Client from "../database";
 import bcrypt from 'bcrypt';
 
+const pepper = "poop"
+const saltRounds = "10"
 
 export type User = {
     id: number;
@@ -10,8 +12,7 @@ export type User = {
     password: string
 
 }
-const pepper = "poop"
-const saltRounds = "12"
+
 export class UserStore {
     async index(): Promise<User[]> {
         try {
@@ -39,7 +40,7 @@ export class UserStore {
 
     async create(u: User): Promise<User> {
         try {
-            const sql = 'INSERT INTO users (firstName, lastName, email, password) VALUES($1, $2, $3, $4) RETURNING *'
+            const sql = 'INSERT INTO users (firstname, lastname, email, password) VALUES($1, $2, $3, $4) RETURNING *'
             const conn = await Client.connect()
             const hash = bcrypt.hashSync(u.password + pepper, parseInt(saltRounds));
             const result = await conn.query(sql, [u.firstname, u.lastname, hash])
@@ -51,20 +52,20 @@ export class UserStore {
         }
     }
 
-    async authenticate(email: string, password: string): Promise<User | null> {
-        const conn = await Client.connect()
-        const sql = 'SELECT password_digest FROM users WHERE email=$1'
-        const result = await conn.query(sql, [email])
-        console.log(password + pepper)
+    // async authenticate(email: string, password: string): Promise<User | null> {
+    //     const conn = await Client.connect()
+    //     const sql = 'SELECT password_digest FROM users WHERE email=$1'
+    //     const result = await conn.query(sql, [email])
+    //     console.log(password + pepper)
 
-        if (result.rows.length) {
-            const user = result.rows[0]
-            console.log(user)
+    //     if (result.rows.length) {
+    //         const user = result.rows[0]
+    //         console.log(user)
 
-            if (bcrypt.compareSync(password + pepper, user.password_digest)) {
-                return user
-            }
-        }
-        return null
-    }
+    //         if (bcrypt.compareSync(password + pepper, user.password_digest)) {
+    //             return user
+    //         }
+    //     }
+    //     return null
+    // }
 }
