@@ -2,7 +2,26 @@
 
 
 Instructions:
-Database Setup and connection: 
+Database Setup:
+1. CREATE a user shopping_user WITH PASSWORD 'password123;
+2. CREATE a DATABASE shopping_test;
+3. CREATE a DATABASE shopping_dev;
+4. GRANT ALL PRIVILEGES ON DATABASE shopping_dev to shopping_user;
+5. GRANT ALL PRIVILEGES ON DATABASE shopping_dev to shopping_user;
+6. Please note when testing you must change ENV=test for tests to work.
+
+ENV:
+POSTGRES_HOST=127.0.0.1
+POSTGRES_DB=shopping_dev
+POSTGRES_TEST_DB=shopping_test
+POSTGRES_USER=shopping_user
+POSTGRES_PASSWORD=password123
+ENV=dev
+BCRYPT_PASSWORD=snow-man-in-summer
+SALT_ROUNDS=10
+TOKEN_SECRET=avadaKedavra
+
+Database Setup and connection Postman: 
 1. Run yarn setup
 2. You should be able to connect to the database on port 3000 with Postman.
 
