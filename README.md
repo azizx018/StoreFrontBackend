@@ -1,6 +1,18 @@
 # Storefront Backend Project
-Instrucctions:
-Database Setup:
+
+
+Instructions:
+Database Setup and connection: 
+1. Run yarn setup
+2. You should be able to connect to the database on port 3000 with Postman.
+
+
+
+
+
+
+
+
 
 
 ## Required Technologies
