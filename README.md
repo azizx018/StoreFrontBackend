@@ -9,6 +9,7 @@ Database Setup:
 4. GRANT ALL PRIVILEGES ON DATABASE shopping_dev to shopping_user;
 5. GRANT ALL PRIVILEGES ON DATABASE shopping_dev to shopping_user;
 6. Please note when testing you must change ENV=test for tests to work.
+7. For the shopping_dev database run yarn setup.  Make sure to change the ENV back to dev. 
 
 ENV:
 POSTGRES_HOST=127.0.0.1
@@ -21,9 +22,7 @@ BCRYPT_PASSWORD=snow-man-in-summer
 SALT_ROUNDS=10
 TOKEN_SECRET=avadaKedavra
 
-Database Setup and connection Postman: 
-1. Run yarn setup
-2. You should be able to connect to the database on port 3000 with Postman.
+
 
 
 

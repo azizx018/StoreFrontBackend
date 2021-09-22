@@ -9,7 +9,7 @@
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess 'node ./dist/server.js'",
     "test": "ENV=test db-migrate --env test up && jasmine-ts --random=false && db-migrate --env test reset",
     "tsc": "tsc",
-    "setup": "db-migrate --env test up && yarn tsc && node dist/server.js"
+    "setup": "db-migrate --env dev up && yarn tsc && node dist/server.js"
   },
   "author": "Udacity",
   "license": "ISC",
