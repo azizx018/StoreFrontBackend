@@ -1,7 +1,8 @@
-import { Order, OrderProduct, OrderStore } from '../order'
+import { Order, OrderStore } from '../order'
 import supertest from 'supertest';
 import app from '../../server'
 import jwt from 'jsonwebtoken';
+import { OrderProduct } from '../order_product';
 
 const TOKEN_SECRET = process.env.TOKEN_SECRET || '';
 const request = supertest(app)
