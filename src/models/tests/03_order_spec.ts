@@ -1,4 +1,4 @@
-import { Order, OrderStore } from '../order'
+import { Order, OrderProduct, OrderStore } from '../order'
 import supertest from 'supertest';
 import app from '../../server'
 import jwt from 'jsonwebtoken';
@@ -26,17 +26,17 @@ describe("03 Order Model", () => {
         expect(orderStore.create).toBeDefined();
     });
     it('create should add a an order', async () => {
+        const op1: OrderProduct = { quantity: 5, productid: 1 }
+        const op2: OrderProduct = { quantity: 3, productid: 2 }
+        const orderProducts: OrderProduct[] = [op1, op2]
         const result = await orderStore.create({
             id: 1,
-            productid: 1,
-            quantity: 6,
             userid: 1,
-            status: "active"
+            status: "active",
+            OrderProducts: orderProducts
         });
         expect(result).toEqual({
             id: 1,
-            productid: 1,
-            quantity: 6,
             userid: 1,
             status: "active"
         });
@@ -49,8 +49,6 @@ describe("03 Order Model", () => {
         const result = await orderStore.ordersForUser(1);
         expect(result).toEqual([{
             id: 1,
-            productid: 1,
-            quantity: 6,
             userid: 1,
             status: 'active'
         }]);

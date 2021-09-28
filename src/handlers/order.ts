@@ -16,10 +16,9 @@ const ordersForUsers = async (req: Request, res: Response) => {
 const create = async (req: Request, res: Response) => {
     const order: Order = {
         id: 0,
-        productid: req.body.productid,
-        quantity: req.body.quantity,
         userid: req.body.userid,
-        status: req.body.status
+        status: req.body.status,
+        OrderProducts: req.body.OrderProducts
     }
     try {
         jwt.verify(req.body.token, TOKEN_SECRET)
@@ -40,7 +39,8 @@ const create = async (req: Request, res: Response) => {
 
 const order_routes = (app: express.Application) => {
     app.get('/users/:id/orders', verifyAuthToken, ordersForUsers)
-    //app.post('/orders', verifyAuthToken, create)
+    // add product
+    app.post('/orders/:id/products', create)
 }
 
 export default order_routes
