@@ -1,5 +1,6 @@
 import Client from "../database";
 import verifyAuthToken from "../handlers/verify";
+import { OrderProduct } from "./order_product";
 
 export type Order = {
     id: number,
@@ -7,10 +8,13 @@ export type Order = {
     status: string,
     OrderProducts?: OrderProduct[] | null
 }
-export type OrderProduct = {
+
+
+export type JoinProduct = {
+    orderid: number,
     productid: number,
-    quantity: number,
-    ProductName?: string | null
+    product: string,
+    quantity: number
 }
 
 export class OrderStore {
@@ -19,7 +23,7 @@ export class OrderStore {
             const conn = await Client.connect()
 
             const sqlOrdersForUser = 'SELECT ' +
-                'O.id AS OrderId, P.name AS Product, OP.quantity ' +
+                'O.id AS orderid, P.name AS product, OP.quantity, P.id AS productid ' +
                 'FROM Orders O ' +
                 'JOIN Order_products OP ON OP.OrderId = O.id ' +
                 'JOIN Products P ON P.id = OP.ProductId ' +
@@ -28,7 +32,7 @@ export class OrderStore {
 
             const orders: Order[] = []
             const rows = ordersForUser.rows
-            rows.forEach((orderProductQuantity: { orderid: number, product: string, quantity: number }) => {
+            rows.forEach((orderProductQuantity: JoinProduct) => {
                 const ordersWithSameId = orders.filter(order => order.id === orderProductQuantity.orderid)
                 const orderExists = ordersWithSameId.length > 0
 
@@ -41,11 +45,10 @@ export class OrderStore {
                         OrderProducts: []
                     }
 
-
-                    rows.forEach((oPQ: { orderid: number, product: string, quantity: number }) => {
+                    rows.forEach((oPQ: JoinProduct) => {
                         if (newOrder.id === oPQ.orderid) {
                             const orderProduct: OrderProduct = {
-                                productid: 0,
+                                productid: oPQ.productid,
                                 quantity: oPQ.quantity,
                                 ProductName: oPQ.product
                             }
@@ -57,15 +60,6 @@ export class OrderStore {
                 }
 
             });
-
-            // loop again through rows, and add in the OrderProducts that have the same orderid
-            //newOrder.OrderProducts?.push(yourNewOrderProduct)
-
-
-
-
-            //const sql = 'SELECT * FROM orders WHERE status=\'active\' AND userId = $1'
-            //const result = await conn.query(sql, [userid])
             conn.release()
             return orders
         } catch (err) {
