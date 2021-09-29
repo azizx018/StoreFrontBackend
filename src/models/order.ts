@@ -1,6 +1,7 @@
 import Client from "../database";
 import verifyAuthToken from "../handlers/verify";
 import { OrderProduct } from "./order_product";
+import { DashboardService, JoinProduct } from "../services/dashboard";
 
 export type Order = {
     id: number,
@@ -10,29 +11,18 @@ export type Order = {
 }
 
 
-export type JoinProduct = {
-    orderid: number,
-    productid: number,
-    product: string,
-    quantity: number
-}
 
 export class OrderStore {
     async ordersForUser(userid: number): Promise<Order[]> {
         try {
             const conn = await Client.connect()
 
-            const sqlOrdersForUser = 'SELECT ' +
-                'O.id AS orderid, P.name AS product, OP.quantity, P.id AS productid ' +
-                'FROM Orders O ' +
-                'JOIN Order_products OP ON OP.OrderId = O.id ' +
-                'JOIN Products P ON P.id = OP.ProductId ' +
-                'WHERE O.userId = $1 AND O.status = \'active\''
-            const ordersForUser = await conn.query(sqlOrdersForUser, [userid])
-
             const orders: Order[] = []
-            const rows = ordersForUser.rows
-            rows.forEach((orderProductQuantity: JoinProduct) => {
+
+            const dashboardSvc: DashboardService = new DashboardService()
+            const joinedOrderProducts = await dashboardSvc.joinProductsForUser(userid)
+
+            joinedOrderProducts.forEach((orderProductQuantity: JoinProduct) => {
                 const ordersWithSameId = orders.filter(order => order.id === orderProductQuantity.orderid)
                 const orderExists = ordersWithSameId.length > 0
 
@@ -45,7 +35,7 @@ export class OrderStore {
                         OrderProducts: []
                     }
 
-                    rows.forEach((oPQ: JoinProduct) => {
+                    joinedOrderProducts.forEach((oPQ: JoinProduct) => {
                         if (newOrder.id === oPQ.orderid) {
                             const orderProduct: OrderProduct = {
                                 productid: oPQ.productid,
