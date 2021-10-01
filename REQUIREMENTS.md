@@ -42,3 +42,6 @@ These are the notes from a meeting with the frontend developer that describe wha
 - quantity of each product in the order: integer
 - productid :int- references products(id)
 
+Database Schema
+
+
