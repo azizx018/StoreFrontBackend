@@ -27,8 +27,8 @@ describe("03 Order Model", () => {
         expect(orderStore.create).toBeDefined();
     });
     it('create should add a an order', async () => {
-        const op1: OrderProduct = { quantity: 5, productid: 1 }
-        const op2: OrderProduct = { quantity: 3, productid: 2 }
+        const op1: OrderProduct = { quantity: 5, productid: 1, ProductName: "apples" }
+        const op2: OrderProduct = { quantity: 3, productid: 2, ProductName: "banana" }
         const orderProducts: OrderProduct[] = [op1, op2]
         const result = await orderStore.create({
             id: 1,
@@ -47,11 +47,15 @@ describe("03 Order Model", () => {
         expect(orderStore.ordersForUser).toBeDefined();
     });
     it('the show method should display userId', async () => {
+        const op1: OrderProduct = { quantity: 5, productid: 1, ProductName: "apples" }
+        const op2: OrderProduct = { quantity: 3, productid: 2, ProductName: "banana" }
+        const orderProducts: OrderProduct[] = [op1, op2]
         const result = await orderStore.ordersForUser(1);
         expect(result).toEqual([{
             id: 1,
             userid: 1,
-            status: 'active'
+            status: 'active',
+            OrderProducts: orderProducts
         }]);
     });
 

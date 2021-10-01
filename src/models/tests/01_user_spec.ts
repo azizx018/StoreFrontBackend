@@ -20,7 +20,7 @@ describe("01 User Model", () => {
     });
     it('create should add a user- check if there user is in database', async () => {
         const result = await store.create({
-            id: 0,
+            id: 1,
             firstname: "test-user-bob",
             lastname: "Jones",
             email: "bob@123.com",
