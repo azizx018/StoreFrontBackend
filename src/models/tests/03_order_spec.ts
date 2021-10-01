@@ -8,7 +8,7 @@ const TOKEN_SECRET = process.env.TOKEN_SECRET || '';
 const request = supertest(app)
 const orderStore = new OrderStore()
 
-let token = ''
+let token = '';
 
 beforeAll((done) => {
 
@@ -68,6 +68,24 @@ describe("03 Order Model", () => {
         expect(response.type).toBe('application/json')
         done();
     });
+
+    it("posts the route '/orders/1/products' ", async (done) => {
+        const op1: OrderProduct = { quantity: 5, productid: 1, ProductName: "apples" }
+        const op2: OrderProduct = { quantity: 3, productid: 2, ProductName: "banana" }
+        const orderProducts: OrderProduct[] = [op1, op2]
+        const response = await request
+            .post('/orders/1/products')
+            .set('Authorization', `Bearer ${token}`)
+            .send({
+                id: 0,
+                userid: 1,
+                status: "active",
+                OrderProducts: orderProducts
+            });
+        expect(response.status).toBe(200);
+        expect(response.type).toBe('application/json')
+        done();
+    })
 
 });
 

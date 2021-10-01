@@ -44,4 +44,54 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 Database Schema
 
+ORDER_PRODUCTS TABLE
+  Table "public.order_products"
+  Column   |  Type   | Collation | Nullable | Default 
+-----------+---------+-----------+----------+---------
+ orderid   | integer |           | not null | 
+ productid | integer |           | not null | 
+ quantity  | integer |           | not null | 
+Foreign-key constraints:
+    "order_products_orderid_fkey" FOREIGN KEY (orderid) REFERENCES orders(id)
+    "order_products_productid_fkey" FOREIGN KEY (productid) REFERENCES products(id)
 
+ORDERS TABLE
+  Table "public.orders"
+ Column |       Type        | Collation | Nullable |              Default               
+--------+-------------------+-----------+----------+------------------------------------
+ id     | integer           |           | not null | nextval('orders_id_seq'::regclass)
+ userid | integer           |           |          | 
+ status | character varying |           |          | 
+Indexes:
+    "orders_pkey" PRIMARY KEY, btree (id)
+Foreign-key constraints:
+    "orders_userid_fkey" FOREIGN KEY (userid) REFERENCES users(id)
+Referenced by:
+    TABLE "order_products" CONSTRAINT "order_products_orderid_fkey" FOREIGN KEY (orderid) REFERENCES orders(id)
+
+PRODUCTS TABLE
+  Table "public.products"
+ Column |       Type        | Collation | Nullable |               Default                
+--------+-------------------+-----------+----------+--------------------------------------
+ id     | integer           |           | not null | nextval('products_id_seq'::regclass)
+ name   | character varying |           |          | 
+ price  | numeric           |           |          | 
+Indexes:
+    "products_pkey" PRIMARY KEY, btree (id)
+Referenced by:
+    TABLE "order_products" CONSTRAINT "order_products_productid_fkey" FOREIGN KEY (productid) REFERENCES products(id)
+ 
+ USERS TABLE
+ Table "public.users"
+  Column   |       Type        | Collation | Nullable |              Default              
+-----------+-------------------+-----------+----------+-----------------------------------
+ id        | integer           |           | not null | nextval('users_id_seq'::regclass)
+ firstname | character varying |           |          | 
+ lastname  | character varying |           |          | 
+ email     | character varying |           |          | 
+ password  | character varying |           |          | 
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (id)
+    "users_email_key" UNIQUE CONSTRAINT, btree (email)
+Referenced by:
+    TABLE "orders" CONSTRAINT "orders_userid_fkey" FOREIGN KEY (userid) REFERENCES users(id)

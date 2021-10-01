@@ -4,6 +4,7 @@ import supertest from 'supertest';
 import app from '../../server'
 import jwt from 'jsonwebtoken';
 
+
 const TOKEN_SECRET = process.env.TOKEN_SECRET || '';
 const request = supertest(app)
 const store = new UserStore()
@@ -55,7 +56,7 @@ describe("01 User Model", () => {
         expect(response.status).toBe(200);
         done();
     });
-    it('gets the api endpoint /users for the create method', async (done) => {
+    it('Posts the  endpoint /users for the create method', async (done) => {
         const response = await request
             .post('/users')
             .send({
@@ -68,6 +69,15 @@ describe("01 User Model", () => {
         expect(response.status).toBe(200);
         done();
     });
+    it("posts the endpoint '/users/authenticate' for the authenticate method", async (done) => {
+        const response = await request
+            .post('/users/authenticate')
+            .send(token)
+        expect(response.status).toBe(200);
+        done();
+    });
 
 });
+
+
 

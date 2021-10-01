@@ -20,13 +20,13 @@ const create = async (req: Request, res: Response) => {
         status: req.body.status,
         OrderProducts: req.body.OrderProducts
     }
-    try {
-        jwt.verify(req.body.token, TOKEN_SECRET)
-    } catch (err) {
-        res.status(401)
-        res.json(`Invalid token ${err}`)
-        return
-    }
+    // try {
+    //     jwt.verify(req.body.token, TOKEN_SECRET)
+    // } catch (err) {
+    //     res.status(401)
+    //     res.json(`Invalid token ${err}`)
+    //     return
+    // }
 
     try {
         const newOrder = await orderStore.create(order)
@@ -40,7 +40,7 @@ const create = async (req: Request, res: Response) => {
 const order_routes = (app: express.Application) => {
     app.get('/users/:id/orders', verifyAuthToken, ordersForUsers)
     // add product
-    app.post('/orders/:id/products', create)
+    app.post('/orders/:id/products', verifyAuthToken, create)
 }
 
 export default order_routes

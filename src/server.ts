@@ -11,7 +11,7 @@ const address: string = "0.0.0.0:3000"
 app.use(bodyParser.json())
 
 app.get('/', function (req, res) {
-    res.send('Hello World!')
+    res.status(200).send('Hello World!')
 })
 
 
