@@ -11,16 +11,7 @@ Database Setup:
 6. Please note when testing you must change ENV=test for tests to work.
 7. For the shopping_dev database run yarn setup.  Make sure to change the ENV back to dev. 
 
-ENV:
-POSTGRES_HOST=127.0.0.1
-POSTGRES_DB=shopping_dev
-POSTGRES_TEST_DB=shopping_test
-POSTGRES_USER=shopping_user
-POSTGRES_PASSWORD=password123
-ENV=test
-BCRYPT_PASSWORD=snow-man-in-summer
-SALT_ROUNDS=10
-TOKEN_SECRET=avadaKedavra
+
 
 
 
